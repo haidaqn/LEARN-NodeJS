@@ -6,6 +6,12 @@ const app = express();
 const port = 3000;
 const router = require('./routes/index');
 
+const db = require('./config/db/index');
+
+// connect to db
+
+db.connect();
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 // HTTP logger
@@ -21,5 +27,5 @@ app.set('views', path.join(__dirname, 'resources/views'));
 router(app);
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`App listening on port ${port}`)
 })
