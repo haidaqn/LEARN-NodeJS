@@ -1,5 +1,6 @@
 const Course = require('../models/Course');
 const { mongooseToObject } = require('../../util/mongoose');
+const mongoose = require('../../util/mongoose');
 
 class CoursesController {
     show(req, res,next) {
@@ -14,17 +15,6 @@ class CoursesController {
     create(req, res, next) {
         res.render("courses/create")
     }
-    // post
-    /* store(req, res, next) {
-
-        req.body.image = `https://i.ytimg.com/vi/${req.body.videoId}/hqdefault.jpg?sqp=-oaymwEXCOADEI4CSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLDGAmQ1LASjIB0VbARxU_Sa_UHXPA`
-
-        const course = new Course(req.body);
-        
-        course.save()
-
-        res.send("courses/store");
-    } */
     
     store(req, res, next) {
         req.body.image = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`;
@@ -34,6 +24,25 @@ class CoursesController {
             .then(() => res.redirect('/'))
             .catch(next);
     }
+    edit(req, res, next) {
+        const courseId = req.params.id;
+        Course.findById( courseId )
+            .then(course => res.render('courses/edit', { course: mongooseToObject(course) }))
+            .catch(next);
+        // res.render('courses/edit');
+
+    }
+
+    //put
+    update(req, res, next) {
+        // res.json(req.body);
+        Course.updateOne({ _id: req.params.id }, req.body)
+            .then(() => res.redirect("/me/stored/courses"))
+            .catch(next);
+
+    }
+
+    // PUt sửa cả document path : sửa từng trường
 }
 
 module.exports = new CoursesController;
