@@ -1,5 +1,8 @@
 <div class="mt-4">
-    <h3 class="mb-2">Khóa học của tôi</h3>
+    <div class="">
+        <h3 class="mb-2">Khóa học của tôi</h3>
+        <a href="/me/trash/courses">thùng rác của bạn haha</a>
+    </div>
     <table class="table ">
         <thead>
             <tr>
@@ -21,6 +24,13 @@
                         <a href="" class="btn btn-link" data-id="{{this._id}}" data-bs-toggle="modal" data-bs-target="#delete-course-modal">Xóa</a>
                     </td>
                 </tr>
+                {{else}}
+                <tr>
+                    <td class="text-center" colspan="5">
+                        Bạn chưa đăng khóa học nào !!
+                        <a href="/courses/create">Bấm vào đây để thêm khóa học</a>
+                    </td>
+                </tr>
             {{/each}}
         </tbody>
     </table>
@@ -34,7 +44,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Khi xóa xong sẽ không khôi phục được lại khóa học!!</p>
+                    <p>Bạn chắc chắn muốn xóa khóa học!!</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="btn-delete-course" class="btn btn-danger">Xóa</button>
@@ -48,7 +58,9 @@
 <form name="delete-course-form" method="POST"></form>
 
 <script>
+
     var courseId;
+    
     const course = document.getElementById('delete-course-modal');
     course.addEventListener('show.bs.modal', event => {
         const button = event.relatedTarget;

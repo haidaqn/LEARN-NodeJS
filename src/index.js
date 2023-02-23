@@ -6,9 +6,9 @@ const app = express();
 const port = 3000;
 const router = require('./routes/index');
 const methodOverride = require('method-override')
+var jquery = require('jquery');
 
 const db = require('./config/db/index');
-
 // connect to db
 
 db.connect();

@@ -1,0 +1,117 @@
+<div class="mt-4">
+    <div class="">
+        <a href="/me/stored/courses">Khóa học của tôi!</a>
+        <h3 class="mb-2">Đây là thùng rác</h3>
+    </div>
+    <table class="table ">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Tên Khóa Học</th>
+                <th scope="col" colspan="1">Level</th>
+                <th scope="col" colspan="2">Miêu tả khóa học</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each courses}}
+            <tr>
+                <th scope="row">{{sum @index 1}}</th>
+                <td>{{this.name}}</td>
+                <td>{{this.level}}</td>
+                <td>@{{this.deletedAt}}</td>
+                <td>
+                    <a href="" class="btn btn-link btn-restore-course" data-id="{{this._id}}" data-bs-toggle="modal"
+                        data-bs-target="#restore-course-modal">Khôi Phục</a>
+                    <a href="" class="btn btn-link" data-id="{{this._id}}" data-bs-toggle="modal"
+                        data-bs-target="#delete-course-modal1">Xóa Vĩnh Viễn</a>
+                </td>
+            </tr>
+            {{else}}
+            <tr>
+                <td class="text-center" colspan="5">
+                    Không có dữ liệu
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+    <div class="modal" tabindex="-1" id="restore-course-modal" aria-labelledby="restore-course-modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Bạn có đồng ý khôi phục khóa học?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Sẽ khôi phục khóa học</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btn-restore" class="btn btn-danger">Đồng ý</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="modal" tabindex="-1" id="delete-course-modal1" aria-labelledby="delete-course-modal1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Bạn có đồng ý xóa khóa học?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Sẽ xóa khóa học vĩnh viễn!!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btn-delete-course" class="btn btn-danger">Xóa</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form name="delete-course-form" method="POST"></form>
+<form name="restore-course-form" method="POST"></form>
+
+<script>
+
+    var courseId;
+    var restoreId;
+    var deleteForm = document.forms['delete-course-form'];
+    var restoreForm = document.forms['restore-course-form'];
+
+    // xóa vĩnh viễn
+    const course = document.getElementById('delete-course-modal1');
+    course.addEventListener('show.bs.modal', event => {
+        const button = event.relatedTarget;
+        courseId = button.getAttribute('data-id');
+    })
+
+    document.getElementById('btn-delete-course').onclick = function () {
+        deleteForm.action = '/courses/' + courseId + '/force?_method=DELETE';
+        deleteForm.submit();
+    }
+
+    // khôi phục
+    
+    const restore = document.getElementById('restore-course-modal');
+    restore.addEventListener('show.bs.modal', event => {
+        const button = event.relatedTarget;
+        restoreId = button.getAttribute('data-id');
+    })
+
+    document.getElementById('btn-restore').onclick = function (e) {
+        restoreForm.action = '/courses/' + restoreId + '/restore?_method=PATCH';
+        restoreForm.submit();
+    } 
+    
+
+</script>
+   
