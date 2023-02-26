@@ -63,6 +63,12 @@ class CoursesController {
             .then(() => res.redirect('back'))
             .catch(next);
     }
+
+    handleForm(req, res, next) {
+        
+    }
+
+
 }
 
 module.exports = new CoursesController;
